@@ -24,14 +24,10 @@ Window
     property string building
     property string timer
 
-    property bool augmented
-
     difficulty: "Medium"
     players: "1"
     building: "1st Edition"
     timer: "OFF"
-
-    augmented: false
 
     width: 1280
     height: 720
@@ -47,8 +43,6 @@ Window
 
         if (operation === "Load Game") showErrorMessage ("Saving and loading is not implemented in this version.")
 
-        if (operation === "Set ARTable") setARTable ()
-
         if (operation === "Options") showSettings ()
 
         if (operation === "Instructions") Qt.openUrlExternally ("http://www.indieboardsandcards.com/fpfr.php")
@@ -61,12 +55,6 @@ Window
         var component = Qt.createComponent ("ErrorMessage.qml")
         var messagebox = component.createObject (window)
         messagebox.message = errorMessage
-    }
-
-    function setARTable ()
-    {
-        augmented = ! augmented
-        showErrorMessage (augmented ? "ARTable version was successfully turned on." : "ARTable version was successfully turned off.")
     }
 
     function showSettings ()
@@ -106,9 +94,9 @@ Window
         anchors.rightMargin: window.width / 15
 
         anchors.top: parent.top
-        anchors.topMargin: window.height / 4.5
+        anchors.topMargin: window.height / 4
 
-        spacing: window.height / 40
+        spacing: window.height / 25
 
         MenuButton
         {
@@ -118,11 +106,6 @@ Window
         MenuButton
         {
             operation: "Load Game"
-        }
-
-        MenuButton
-        {
-            operation: "Set ARTable"
         }
 
         MenuButton

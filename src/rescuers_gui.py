@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# Edited by xbacov04
+
 import os
 import sys
 import signal
@@ -7,6 +9,7 @@ import rospy
 from PyQt5 import QtGui, QtWidgets, QtCore, QtNetwork, QtQuick, QtQml
 from xbacov04.helpers import ProjectorHelper
 from OpenGL import GL
+from std_msgs import msg
 
 scriptDir = os.path.dirname(os.path.realpath(__file__))
 
@@ -63,6 +66,23 @@ class RescuersGui(QtQml.QQmlApplicationEngine):
         # TODO deal with disconnected clients!
         # self.connections[-1].disconnected.connect(clientConnection.deleteLater)
 
+        # TODO setup automatic calibration of projector and touch      
+        # rospy.loginfo("Starting calibration using chessboard.")
+        # for proj in self.projectors:        
+        #     proj.chessboard()
+        #
+        # rospy.loginfo("Starting touch calibration.")
+        # service = rospy.Service('/art/interface/touchtable/calibrate', TouchtableCalibrate, handle_touchtable_calibrate)
+        #
+        # try:
+        #     touch = rospy.ServiceProxy('/art/interface/touchtable/calibrate', TouchtableCalibrate)
+        # except rospy.ServiceException, error:
+        #     print "Service call failed: %s"%error
+
+        # os.system('rostopic pub --once /art/interface/projected_gui/app/projectors_calibrated std_msgs/Bool "data: false"')
+        # os.system('rosservice call /art/localhost/projector/calibrate')
+        # os.system('rostopic pub --once /art/interface/projected_gui/app/projectors_calibrated std_msgs/Bool "data: true"')
+
     def send_to_clients_evt(self):
 
         if len(self.connections) == 0:
@@ -73,14 +93,14 @@ class RescuersGui(QtQml.QQmlApplicationEngine):
         out.setVersion(QtCore.QDataStream.Qt_4_0)
         out.writeUInt32(0)
 
-        #if (self.rootObjects()[0].isVisible()):
-        #    pix = self.rootObjects()[0].grabWindow()
-        #    pix = pix.mirrored()
-        #    img = QtCore.QByteArray()
-        #    buffer = QtCore.QBuffer(img)
-        #    buffer.open(QtCore.QIODevice.WriteOnly)
-        #    pix.save(buffer, "JPG", 95)
-        #    out << img
+        # if (self.rootObjects()[0].isVisible()):
+        #     pix = self.rootObjects()[0].grabWindow()
+        #     pix = pix.mirrored()
+        #     img = QtCore.QByteArray()
+        #     buffer = QtCore.QBuffer(img)
+        #     buffer.open(QtCore.QIODevice.WriteOnly)
+        #     pix.save(buffer, "JPG", 95)
+        #     out << img
 
         screen = QtWidgets.QApplication.primaryScreen().grabWindow(0)
         crop = QtCore.QRect(self.rootObjects()[0].x(), self.rootObjects()[0].y(), self.rootObjects()[0].width(), self.rootObjects()[0].height())

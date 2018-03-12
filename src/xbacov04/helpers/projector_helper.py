@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 
+# Edited by xbacov04
+
+import os
 import rospy
 from std_msgs.msg import Bool
+from std_msgs.msg import String
 from std_srvs.srv import Trigger
 
 
@@ -61,3 +65,8 @@ class ProjectorHelper():
         if self.calibrated_cb is not None:
             self.calibrated_cb(self)
             self.calibrated_cb = None
+
+    def chessboard(self):
+
+        ret = self.srv_calibrate()
+        os.system('rostopic pub --once /art/interface/projected_gui/app/projectors_calibrated std_msgs/Bool "data: true"')
